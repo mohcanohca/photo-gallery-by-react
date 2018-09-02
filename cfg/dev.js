@@ -34,9 +34,6 @@ config.module.loaders.push({
     config.additionalPaths,
     [ path.join(__dirname, '/../src') ]
   )
-},{
-  test:/\.css$/,
-  loader:'style-loader!css-loader!autoprefixer-loader?{browsers:["last 2 versions"]}'
 });
 
 module.exports = config;
