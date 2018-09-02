@@ -25,6 +25,12 @@ html, body {
   height: 100%;
   overflow: hidden;
   background-color: #ddd;
+
+  /*
+   * 添加景深，增强3D效果。
+   * 当为元素设置perspective，子元素会获得透视效果，而不是元素本身
+   */
+  perspective: 1800px;
 }
 
 /* image --end */
