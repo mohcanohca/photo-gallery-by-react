@@ -1,22 +1,36 @@
 require('normalize.css/normalize.css');
-require('styles/App.css');
+require('styles/main.css');
 
 import React from 'react';
 
-let yeomanImage = require('../images/yeoman.png');
+// let yeomanImage = require('../images/yeoman.png');
+//获取图片相关数据
+let imageDatas = require('../data/imageData.json');
 
-class AppComponent extends React.Component {
+//对于只执行一次的函数，可以选择使用自执行函数的方式
+//利用自执行函数，将图片信息转换成图片URL路径信息
+imageDatas = (function genImgURL(imageDataArr) {
+  for (let i = 0; i < imageDataArr.length; i++) {
+    let imgData = imageDataArr[i];
+    imgData.imgURL = require('../images/' + imgData.fileName);
+    imageDataArr[i] = imgData;
+  }
+  return imageDataArr;
+})(imageDatas);
+
+class PhotoGallery extends React.Component {
   render() {
     return (
-      <div className="index">
-        <img src={yeomanImage} alt="Yeoman Generator" />
-        <div className="notice">Please edit <code>src/components/Main.js</code> to get started!</div>
-      </div>
+      <section className={`stage`}>
+        <section className={`img-sec`}>
+        
+        </section>
+        <nav className={`controller-nav`}></nav>
+      </section>
     );
   }
 }
 
-AppComponent.defaultProps = {
-};
+PhotoGallery.defaultProps = {};
 
-export default AppComponent;
+export default PhotoGallery;
