@@ -20,6 +20,19 @@ imageDatas = (function genImgURL(imageDataArr) {
   return imageDataArr;
 })(imageDatas);
 
+//获取一个[low,high]范围中的随机值
+function getRandomValue(low, high) {
+  return Math.floor(Math.random() * (high - low) + low);
+}
+
+//获取一个[-30°,30°]的随机值
+function get30DegRotation() {
+  let randNum = Math.ceil(Math.random() * 30);
+  if (Math.random() > 0.5)
+    return randNum;
+  return -randNum;
+}
+
 class PhotoGallery extends React.Component {
   state = {
     imgsArrangeArr: []//存储所有图片排布位置的取值范围
@@ -58,10 +71,11 @@ class PhotoGallery extends React.Component {
           pos: {
             left: 0,
             top: 0
-          }
+          },
+          rotation: 0
         }
       }
-      imgFigures.push(<ImgFigure key={index} pos={imgsArrangeArr[index].pos} data={current}
+      imgFigures.push(<ImgFigure key={index} data_state={imgsArrangeArr[index]} data={current}
                                  ref={'imgFigure' + index}/>);
       return current;
     });
@@ -112,29 +126,39 @@ class PhotoGallery extends React.Component {
     
     //设置上侧区域图片的取值范围
     let topImgArrangeArr = imgsArrangeArr.splice(topImgSpliceIndex, topImgCount);
-    topImgArrangeArr.forEach((current, index) => {
-      current.pos = {
-        left: this.getRandomValue(x[0], x[1]),
-        top: this.getRandomValue(topY[0], topY[1])
+    for (let i = 0; i < topImgArrangeArr.length; i++) {
+      topImgArrangeArr[i] = {
+        pos: {
+          left: getRandomValue(x[0], x[1]),
+          top: getRandomValue(topY[0], topY[1])
+        },
+        rotation: get30DegRotation()
       };
-    });
+    }
+    
     
     //设置左右两侧区域的图片状态
-    imgsArrangeArr.forEach((current, index) => {
-      let length = imgsArrangeArr.length;
-      if (index < length / 2) {
-        current.pos = {
-          left: this.getRandomValue(leftSecX[0], leftSecX[1]),
-          top: this.getRandomValue(y[0], y[1])
-        };
+    let length = imgsArrangeArr.length;
+    for (let i = 0; i < imgsArrangeArr.length; i++) {
+      if (i < length / 2) {
+        imgsArrangeArr[i] = {
+          pos: {
+            left: getRandomValue(leftSecX[0], leftSecX[1]),
+            top: getRandomValue(y[0], y[1])
+          },
+          rotation: get30DegRotation()
+        }
       } else {
-        current.pos = {
-          left: this.getRandomValue(rightSecX[0], rightSecX[1]),
-          top: this.getRandomValue(y[0], y[1])
-        };
+        imgsArrangeArr[i] = {
+          pos: {
+            left: getRandomValue(rightSecX[0], rightSecX[1]),
+            top: getRandomValue(y[0], y[1])
+          },
+          rotation: get30DegRotation()
+        }
+        
       }
-      
-    });
+    }
     
     //将中间的图片和上侧的图片放回图片布局状态数组
     imgsArrangeArr.splice(0, 0, centerImgArrangeArr[0]);
@@ -146,11 +170,6 @@ class PhotoGallery extends React.Component {
       imgsArrangeArr: imgsArrangeArr
     });
   };
-  
-  getRandomValue = (low, high) => {
-    return Math.floor(Math.random() * (high - low) + low);
-  };
-  
   
   //设置上下左右区域图像能放置的位置范围
   setPosArranges = () => {
@@ -170,7 +189,8 @@ class PhotoGallery extends React.Component {
     
     this.Constant.centerPos = {
       left: halfStageW - halfImgW,
-      top: halfStageH - halfImgH * 2
+      top: halfStageH - halfImgH * 2,
+      zIndex: 10
     };
     
     //设置左右两侧区域图片排布位置的取值范围
