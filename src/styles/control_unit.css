@@ -1,0 +1,44 @@
+@font-face {
+  font-family: "icons-turn-arrow";
+  src: url("../fonts/turn-arrow.eot") format("embedded-opentype"), url("../fonts/turn-arrow.woff") format("woff"), url("../fonts/turn-arrow.ttf") format("truetype"), url("../fonts/turn-arrow.svg") format("svg");
+}
+
+.control-unit {
+  display: inline-block;
+  width: 25px;
+  height: 25px;
+  margin: 0 5px;
+
+  text-align: center;
+  vertical-align: middle; /*按照容器的中部对齐*/
+
+  cursor: pointer;
+  background-color: #aaa;
+  border-radius: 50%;
+
+  transform: scale(.5); /*默认状态下缩放控制按钮为原大小的一般*/
+  transition: transform .6s ease-in-out, background-color .3s;
+}
+
+.control-unit.is-center {
+  background-color: #888;
+  transform: scale(1);
+
+}
+
+/*使用icon-font，字体文件取代图片文件展示图标。好处：icon-font体积小；icon-font是矢量图形，拉伸不变形，颜色可任意更换，支持css3属性对文字的修饰*/
+.control-unit.is-center::after {
+  color: #fff;
+  font-size: 80%;
+  font-family: "icons-turn-arrow";
+  content: "\e600";
+  line-height: 25px;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.control-unit.is-inverse {
+  background-color: #555;
+  transform: rotateY(180deg);
+}

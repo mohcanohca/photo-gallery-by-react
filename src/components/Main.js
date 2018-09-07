@@ -4,6 +4,7 @@ require('styles/main.css');
 import React from 'react';
 import {findDOMNode} from 'react-dom';
 import ImgFigure from './ImgFigure';
+import ControlUnit from './ControlUnit';
 
 // let yeomanImage = require('../images/yeoman.png');
 //获取图片相关数据
@@ -68,7 +69,7 @@ class PhotoGallery extends React.Component {
   }
   
   render() {
-    let controllerUnits = [];//存储控制按钮
+    let controlUnits = [];//存储控制按钮
     let imgFigures = [];//存储图片流
     const {imgsArrangeArr} = this.state;
     imageDatas.forEach((current, index) => {
@@ -84,8 +85,17 @@ class PhotoGallery extends React.Component {
           isCenter: false
         }
       }
-      imgFigures.push(<ImgFigure key={index} data_state={imgsArrangeArr[index]} data={current}
-                                 ref={'imgFigure' + index} inverse={this.inverse(index)} center={this.center(index)}/>);
+      
+      imgFigures.push(
+        <ImgFigure key={index}
+                   data_state={imgsArrangeArr[index]}
+                   data={current}
+                   ref={'imgFigure' + index}
+                   inverse={this.inverse(index)}
+                   center={this.center(index)}/>);
+      
+      controlUnits.push(<ControlUnit key={index}/>);
+      
       return current;
     });
     
@@ -95,8 +105,8 @@ class PhotoGallery extends React.Component {
           {imgFigures}
         </section>
         
-        <nav className={`controller-nav`}>
-          {controllerUnits}
+        <nav className={`control-nav`}>
+          {controlUnits}
         </nav>
       </section>
     );
