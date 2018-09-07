@@ -7,8 +7,19 @@ import '../styles/control_unit.css';
 
 class ControlUnit extends React.Component {
   render() {
+    let controlUnitClassName = 'control-unit';
+    const {data_state} = this.props;
+    
+    if (data_state.isCenter) {
+      controlUnitClassName += ' is-center';
+    }
+    
+    if (data_state.isInverse) {
+      controlUnitClassName += ' is-inverse';
+    }
+    
     return (
-      <span className={`control-unit`} onClick={this.handleClick}></span>
+      <span className={controlUnitClassName} onClick={this.handleClick}></span>
     );
   }
   
@@ -16,6 +27,13 @@ class ControlUnit extends React.Component {
   handleClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    
+    const {data_state, inverse, center} = this.props;
+    if (data_state.isCenter) {
+      inverse();
+    } else {
+      center();
+    }
   }
 }
 

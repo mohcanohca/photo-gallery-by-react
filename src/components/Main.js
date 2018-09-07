@@ -94,7 +94,10 @@ class PhotoGallery extends React.Component {
                    inverse={this.inverse(index)}
                    center={this.center(index)}/>);
       
-      controlUnits.push(<ControlUnit key={index}/>);
+      controlUnits.push(<ControlUnit key={index}
+                                     data_state={imgsArrangeArr[index]}
+                                     inverse={this.inverse(index)}
+                                     center={this.center(index)}/>);
       
       return current;
     });
